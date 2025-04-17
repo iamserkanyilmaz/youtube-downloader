@@ -1,0 +1,42 @@
+youtube_downloader_web/
+├── app.py
+├── templates/
+│   └── index.html
+├── static/
+│   └── style.css
+└── requirements.txt
+
+
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+pip install flask
+python3 app.py
+
+
+
+pyinstaller --onefile --windowed --icon=icon.ico --add-data "templates;templates" --add-data "static;static" --hidden-import=yt_dlp --hidden-import=flask --hidden-import=werkzeug app.py
+
+
+Notlar:
+Güvenlik Uyarısı: macOS, ilk kez çalıştırılan uygulamalar için güvenlik uyarısı gösterebilir. Kullanıcılar "Sistem Tercihleri > Güvenlik ve Gizlilik" bölümünden uygulamayı çalıştırmaya izin vermelidir.
+İnternet Bağlantısı: Uygulama, YouTube videolarını indirmek için internet bağlantısı gerektirir.
+Cookie Yönetimi: Özel videoları indirmek için kullanıcıların YouTube cookie'lerini yüklemesi gerekebilir.
+Güncellemeler: Uygulamanızı güncellemek isterseniz, yeni bir sürüm oluşturup dağıtabilirsiniz.
+Uygulamanız başarıyla paketlendi ve kullanıma hazır. Herhangi bir sorunla karşılaşırsanız veya başka bir yardıma ihtiyacınız olursa, lütfen bana bildirin.
+
+
+Nasıl Kullanılır:
+Tek Video İndirme:
+Video URL'sini girin
+"Formatları Listele" butonuna tıklayın
+İstediğiniz formatı seçin ve indirin
+Toplu Video İndirme:
+Her satıra bir URL gelecek şekilde YouTube video bağlantılarını girin
+"Listeye Ekle" butonuna tıklayın
+Her video için istediğiniz formatı seçin
+"Tümünü İndir" butonuna tıklayarak tüm videoları indirin
+Format Seçimi:
+Her video için açılır menüden format seçebilirsiniz
+Format açıklamalarında video ve ses kalitesi bilgileri gösterilir
+Ses ve video içeren formatları seçmeye dikkat edin

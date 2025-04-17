@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cookie Ayarları - M-YouTube Video İndirici</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Modal/Popup için overlay -->
+    <div id="popup-overlay" class="popup-overlay" onclick="closePopup()">
+        <div class="popup-content" onclick="event.stopPropagation()">
+            <span class="popup-close" onclick="closePopup()">&times;</span>
+            <h2>Nasıl Yaptık?</h2>
+            <div class="popup-body">
+                <img src="/static/img/hello.gif" alt="Nasıl Yaptık GIF" class="popup-img">
+                <p>M-YouTube Downloader, gizli videolarınızı kolayca indirmenizi sağlayan özel bir araçtır.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onay Popup'ı için overlay -->
+    <div id="confirm-overlay" class="popup-overlay" onclick="closeConfirm()">
+        <div class="popup-content" onclick="event.stopPropagation()">
+            <span class="popup-close" onclick="closeConfirm()">&times;</span>
+            <h2>Uygulamayı Kapat</h2>
+            <div class="popup-body">
+                <p>Uygulamayı kapatmak istediğinize emin misiniz?</p>
+                <div class="confirmation-buttons">
+                    <button class="secondary" onclick="closeConfirm()">İptal</button>
+                    <button class="danger" onclick="shutdownServer()">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <img src="/static/img/logo.png" alt="M-YouTube Downloader Logo">
+            <h1>Cookie Ayarları</h1>
+        </header>
+        
+        <div class="back-button">
+            <a href="/" class="button secondary"><i class="fas fa-arrow-left"></i> Ana Sayfaya Dön</a>
+        </div>
+        
+        {% if message %}
+        <div class="message success">
+            <p><i class="fas fa-check-circle"></i> {{ message }}</p>
+        </div>
+        {% endif %}
+        
+        {% if error %}
+        <div class="message error">
+            <p><i class="fas fa-exclamation-circle"></i> {{ error }}</p>
+        </div>
+        {% endif %}
+        
+        <div class="box">
+            <h2><i class="fas fa-cookie"></i> YouTube Cookie'lerinizi Yükleyin</h2>
+            <div class="help-text">
+                <p>Gizli YouTube videolarını indirmek için Google hesabınıza oturum açtığınız tarayıcıdan cookies.txt dosyasını yüklemeniz gerekir.</p>
+                <ol>
+                    <li>Chrome tarayıcısı kullanıyorsanız, <a href="https://chromewebstore.google.com/search/cookie%20txt?hl=tr" target="_blank">Chrome Eklentileri</a> sayfasına gidin ve "Get cookies.txt LOCALLY" eklentisini kurun.</li>
+                    <li>YouTube web sitesinde hesabınıza giriş yapın.</li>
+                    <li>Eklenti simgesine tıklayın ve cookies.txt dosyasını indirin.</li>
+                    <li>Aşağıdan indirdiğiniz cookies.txt dosyasını yükleyin.</li>
+                </ol>
+            </div>
+            
+            <div class="status">
+                <p>
+                    Cookie Durumu: 
+                    {% if cookies_set %}
+                        <span class="status-ok"><i class="fas fa-check-circle"></i> YouTube cookie yüklendi</span>
+                    {% else %}
+                        <span class="status-error"><i class="fas fa-exclamation-circle"></i> YouTube cookie yüklenmedi</span>
+                    {% endif %}
+                </p>
+            </div>
+            
+            <form method="post" enctype="multipart/form-data" action="/upload-cookies">
+                <div class="form-group">
+                    <label for="cookie-file"><i class="fas fa-file-upload"></i> Cookie Dosyasını Seçin</label>
+                    <input type="file" id="cookie-file" name="cookie_file" accept=".txt">
+                </div>
+                <button type="submit"><i class="fas fa-upload"></i> Yükle</button>
+            </form>
+            
+            {% if cookies_set %}
+            <div class="actions">
+                <form method="post" action="/clear-cookies">
+                    <button type="submit" class="danger"><i class="fas fa-trash"></i> Cookie'leri Temizle</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="font-credit">
+            Bu araç Merzigo Sans fontları ile tasarlanmıştır <i class="fas fa-heart"></i>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-nav">
+                <a href="/cookies" class="active"><i class="fas fa-cog"></i> Cookie Ayarları</a>
+                <a href="/history"><i class="fas fa-history"></i> İndirme Geçmişi</a>
+                <a href="https://my.weoll.com/my/destek-taleplerim" target="_blank"><i class="fas fa-question-circle"></i> Yardım</a>
+                <a href="javascript:void(0)" onclick="openPopup()"><i class="fas fa-info-circle"></i> Nasıl Yaptık?</a>
+            </div>
+            <div class="shutdown-button">
+                <button class="danger" onclick="confirmShutdown()"><i class="fas fa-power-off"></i> Uygulamayı Kapat</button>
+            </div>
+            <div class="copyright">
+                &copy; 2025 M-YouTube Downloader | Tüm hakları saklıdır.
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // Popup fonksiyonları
+    function openPopup() {
+        document.getElementById('popup-overlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Arka planın kaydırılmasını engelle
+    }
+
+    function closePopup() {
+        document.getElementById('popup-overlay').style.display = 'none';
+        document.body.style.overflow = ''; // Normal kaydırmayı geri getir
+    }
+
+    // Onay popup fonksiyonları
+    function confirmShutdown() {
+        document.getElementById('confirm-overlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeConfirm() {
+        document.getElementById('confirm-overlay').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    function shutdownServer() {
+        fetch('/shutdown', { method: 'POST' })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/goodbye';
+                }
+            })
+            .catch(error => {
+                console.error('Sunucu kapatma hatası:', error);
+                alert('Sunucu kapatılamadı. Lütfen pencereyi kapatın.');
+            });
+    }
+    </script>
+</body>
+</html> 

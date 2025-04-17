@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
+  <style>
+    .logo-text { font-family: Arial, sans-serif; font-weight: bold; }
+    .primary { fill: #47846F; }
+    .accent { fill: #f72585; }
+  </style>
+  <g transform="translate(10,40)">
+    <text class="logo-text primary" font-size="28">M-YouTube</text>
+    <text class="logo-text accent" x="145" font-size="28">DL</text>
+  </g>
+  <path class="accent" d="M25 15 L35 5 L45 15 L35 25 Z" />
+</svg> 
