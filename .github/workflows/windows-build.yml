@@ -25,14 +25,8 @@ jobs:
         pip install pyinstaller flask yt-dlp
 
     - name: Build EXE with PyInstaller
-      run: |
-        pyinstaller --noconsole --onefile --icon=icon.ico ^
-          --add-data "templates;templates" ^
-          --add-data "static;static" ^
-          --hidden-import=yt_dlp ^
-          --hidden-import=flask ^
-          --hidden-import=werkzeug ^
-          app.py
+      run: pyinstaller --noconsole --onefile --icon=icon.ico --add-data "templates;templates" --add-data "static;static" --hidden-import=yt_dlp --hidden-import=flask --hidden-import=werkzeug app.py
+    
 
     - name: Upload EXE as artifact
       uses: actions/upload-artifact@v4
