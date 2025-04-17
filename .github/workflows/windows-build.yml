@@ -35,7 +35,7 @@ jobs:
           app.py
 
     - name: Upload EXE as artifact
-      uses: actions/upload-artifact@v3.1.3
+      uses: actions/upload-artifact@v3.1.4
       with:
         name: flask-downloader-windows
         path: dist/app.exe
